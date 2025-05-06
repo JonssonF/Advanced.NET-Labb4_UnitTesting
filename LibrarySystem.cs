@@ -57,10 +57,13 @@ namespace Advanced.NET_Labb4_UnitTesting
         {
             return books.FirstOrDefault(b => b.ISBN == isbn);
         }
-
+        //BUG 4 - Added StringComparison.OrdinalIgnoreCase to make the search case-insensitive.
         public List<Book> SearchByTitle(string title)
         {
-            return books.Where(b => b.Title == title).ToList();
+            return books
+                .Where(b => b.Title
+                .Contains(title, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
 
         public List<Book> SearchByAuthor(string author)
@@ -86,6 +89,8 @@ namespace Advanced.NET_Labb4_UnitTesting
             if (book != null && book.IsBorrowed)
             {
                 book.IsBorrowed = false;
+                // BUG 10 - Added to reset the borrow date when returning a book
+                book.BorrowDate = null;
                 return true;
             }
             return false;
