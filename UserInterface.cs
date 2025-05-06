@@ -90,7 +90,7 @@ namespace Advanced.NET_Labb4_UnitTesting
                 if (success)
                     Console.WriteLine("Book added successfully!");
                 else
-                    Console.WriteLine("Failed to add book. ISBN might already exist.");
+                    Console.WriteLine("Failed to add book. ISBN might already exist or is null.");
             }
             else
             {

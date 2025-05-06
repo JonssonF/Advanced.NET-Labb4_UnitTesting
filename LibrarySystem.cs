@@ -26,14 +26,26 @@ namespace Advanced.NET_Labb4_UnitTesting
 
         public bool AddBook(Book book)
         {
+            //BUG 1 - Added if-statement so books can't be duplicate.
+            if (books.Any(b => b.ISBN == book.ISBN)) 
+            {
+                return false;
+            }
+            //BUG 2 - Added if-statement so books can't be whitespace or null.
+            if (string.IsNullOrWhiteSpace(book.ISBN))
+            {
+                return false;
+            }
+
             books.Add(book);
             return true;
         }
 
         public bool RemoveBook(string isbn)
         {
+            //BUG 3 - Altered if-statement to include IsBorrowed
             Book book = SearchByISBN(isbn);
-            if (book != null)
+            if (book != null && book.IsBorrowed != true)
             {
                 books.Remove(book);
                 return true;
@@ -92,9 +104,9 @@ namespace Advanced.NET_Labb4_UnitTesting
             Book book = SearchByISBN(isbn);
             if (book == null)
                 return 0;
-
+            //Added multiplying instead of adding.
             decimal feePerDay = 0.5m;
-            return daysLate + feePerDay;
+            return daysLate * feePerDay;
         }
 
         public bool IsBookOverdue(string isbn, int loanPeriodDays)
