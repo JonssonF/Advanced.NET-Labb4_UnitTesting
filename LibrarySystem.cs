@@ -68,7 +68,10 @@ namespace Advanced.NET_Labb4_UnitTesting
 
         public List<Book> SearchByAuthor(string author)
         {
-            return books.Where(b => b.Author.Contains(author, StringComparison.OrdinalIgnoreCase)).ToList();
+            return books
+                .Where(b => b.Author
+                .Contains(author, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
 
         public bool BorrowBook(string isbn)
