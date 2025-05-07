@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "ymMoYjrWcrg=",
-  "success": false,
+  "dgSpecHash": "gM+ROUJzUaQ=",
+  "success": true,
   "projectFilePath": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\LibrarySystemTests\\UnitTesting.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Fredr\\.nuget\\packages\\microsoft.applicationinsights\\2.22.0\\microsoft.applicationinsights.2.22.0.nupkg.sha512",
@@ -32,15 +32,5 @@
     "C:\\Users\\Fredr\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
     "C:\\Users\\Fredr\\.nuget\\packages\\system.text.json\\6.0.10\\system.text.json.6.0.10.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

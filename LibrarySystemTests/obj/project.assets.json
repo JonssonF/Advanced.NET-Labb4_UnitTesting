@@ -2547,7 +2547,6 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Advanced.NET-Labb4_UnitTesting >= 1.0.0",
-      "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj",
       "MSTest >= 3.6.4",
       "Microsoft.NET.Test.Sdk >= 17.12.0",
       "Microsoft.Testing.Extensions.CodeCoverage >= 17.12.6",
@@ -2587,9 +2586,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj": {
-              "projectPath": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj"
-            },
             "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj": {
               "projectPath": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj"
             }
@@ -2648,16 +2644,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

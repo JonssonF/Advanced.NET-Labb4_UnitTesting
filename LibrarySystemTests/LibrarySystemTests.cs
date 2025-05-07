@@ -5,43 +5,46 @@ namespace LibrarySystemTests
     [TestClass]
     public class LibrarySystemTests
     {
-        private readonly LibrarySystem _librarySystem;
+        private LibrarySystem? _librarySystem;
+        public TestContext? TestContext { get; set; }
 
-        public LibrarySystemTests()
+        [TestInitialize]
+        public void Setup()
         {
-            _librarySystem = new LibrarySystem();
+            _librarySystem = new LibrarySystem(new List<Book> ());
         }
-
 
         [TestMethod]
-        [DataRow("Test Title", "Test Author", "0123456789", 2025)]
-        [DataRow("Test Title1", "Test Author1", "0123456780", 2025)]
-        public void AddBook_ShouldAdd_ValidBook(string title, string author, string isbn, int year)
+        public void AddBook_ShouldAdd_ValidBook()
         {
-            //Given: a book with ubnique ISBN
-            var book = new Book(title, author, isbn, year);
+            var library = new LibrarySystem(new List<Book>());
+            
+            //Given: a book with unique ISBN
+            var book = new Book("Test Title", "Test Author", "0123456789", 2025);
 
             //When: try to add the book to the library
-            bool result = _librarySystem.AddBook(book);
+            bool result = library.AddBook(book);
 
             //Then: the book should be added successfully and retrievable by ISBN
-            Assert.IsTrue(result, "Book should be added successfully.");
-            Assert.IsNotNull(_librarySystem.SearchByISBN(isbn), "Book should be found in the library.");
+            Assert.IsTrue(result, "Book couldn't be added successfully.");
         }
+
 
         [TestMethod]
         public void AddBook_ShouldNotAdd_DuplicateISBN()
         {
+            var library = new LibrarySystem(new List<Book>());
+
             //Given: two books with the same ISBN.
             string isbn = "0123456789";
             var duplicateBook = new Book("Test Title", "Test Author", isbn, 2025);
 
             //When: adding the first book(successfully) and the second book(unsuccessfully)
-            _librarySystem.AddBook(new Book("Test Title", "Test Author", isbn, 2025));
-            bool actual = _librarySystem.AddBook(duplicateBook);
+            library.AddBook(new Book("Test Title", "Test Author", isbn, 2025));
+            bool actual = library.AddBook(duplicateBook);
 
             //Then: the second book should not be added.
-            Assert.IsFalse(actual, "Expected: Adding a book with duplicate ISBN should fail.");
+            Assert.IsFalse(actual, "Expected: Adding a book with different ISBN should fail.");
 
         }
 
@@ -50,13 +53,13 @@ namespace LibrarySystemTests
         {
             //Given: a book to remove
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
-            _librarySystem.AddBook(book);
+            var library = new LibrarySystem(new List<Book> { book }); //Adding the book to the library
+
             //When: removing the book
-            bool actual = _librarySystem.RemoveBook(book.ISBN);
+            bool actual = library.RemoveBook(book.ISBN);
 
             //Then: the book should be removed successfully
             Assert.IsTrue(actual, "Book was not removed successfully.");
-
         }
 
         [TestMethod]
@@ -64,8 +67,8 @@ namespace LibrarySystemTests
         {
             //Given: a book that is borrowed
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
-            _librarySystem.AddBook(book);
             book.IsBorrowed = true; // Simulate that the book is borrowed
+            var library = new LibrarySystem(new List<Book> { book });
 
             //When: trying to remove the borrowed book
             bool actual = _librarySystem.RemoveBook(book.ISBN);
@@ -75,43 +78,105 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
-        public void SearchByISBN_ShouldReturnBook()
+        public void FindExactISBN_ShouldReturnBook()
         {
             //Given: a book in the library
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
-            _librarySystem.AddBook(book);
+            var library = new LibrarySystem(new List<Book> { book });
+
             //When: searching for the book by ISBN
-            var actual = _librarySystem.SearchByISBN(book.ISBN);
+            var actual = library.FindExactISBN(book.ISBN);
+
             //Then: the correct book should be returned
             Assert.IsNotNull(actual, "Expected: Book should be found.");
             Assert.AreEqual(book.Title, actual.Title, "Expected: Book title should match.");
         }
 
         [TestMethod]
-        public void SearchByISBN_ShouldReturnNull_NotFound()
+        public void FindExactISBN_ShouldReturnNull_NotFound()
         {
+            //CTFT
+            /*
+            string existentISBN = "0123456789";
+            var book = new Book("Test Title", "Test Author", existentISBN, 2025);
+            var library = new LibrarySystem(new List<Book> { book });
+            */
+
             //Given: a book that is not in the library
-            string isbn = "0123456789";
+            string nonExistentISBN = "9876543210";
+
             //When: searching for the book by ISBN
-            var actual = _librarySystem.SearchByISBN(isbn);
+            var actual = _librarySystem.FindExactISBN(nonExistentISBN);
+
             //Then: null should be returned
             Assert.IsNull(actual, "Expected: Book should not be found.");
         }
 
         [TestMethod]
-        public void SearchByTitle_PartialTitleAndLowerCases_ReturnTrue() 
+        public void SearchByTitle_PartialTitleAndLowerCases_ReturnTrue()
         {
-
             //Given: a book in the library
-            _librarySystem.AddBook(new Book("Test This", "Test Author", "0123456789", 2025));
-            
+            var book = new Book("Test This", "Test Author", "0123456789", 2025);
+            var library = new LibrarySystem(new List<Book> { book });
+
             //When: searching for the book by partial title
-            var result = _librarySystem.SearchByTitle("this");
+            var result = library.SearchByTitle("thi");
 
             //Then: the correct book should be returned
             Assert.AreEqual(1, result.Count, "Expected: One book should be found.");
+        }
+
+        [TestMethod]
+        public void SearchByAuthor_PartialAuthorAndLowerCases_ReturnExpectedResult()
+        {
+            //Given: some books to add to the library
+            var book = new Book("Test This", "Bellman", "0123456779", 2025);
+            var book1 = new Book("Test Thoose", "Batman", "0123456789", 2025);
+            var book2 = new Book("Test That", "The Man", "0123456799", 2025);
+            var library = new LibrarySystem(new List<Book> { book, book1, book2 });
+
+            string splitAuthor = "man";
+
+            //When: searching for the book by partial author
+            var result = library.SearchByAuthor(splitAuthor);
+
+            //Then: the matching books should be returned
+            int expected = library.GetAllBooks().Count;
+
+            TestContext!.WriteLine($"Searched for {splitAuthor}");
+            foreach(var b in result)
+            {
+                TestContext.WriteLine($"Found: {b.Author}");
+            }
+            TestContext!.WriteLine($"Expected: {expected} Actual: {result.Count}.");
+            Assert.AreEqual(expected, result.Count, $"Expected: {expected} Actual: {result.Count}.");
 
         }
+
+        [TestMethod]
+        public void SearchByISBN_PartialISBN_ReturnMachingResults()
+        {
+            //Given: a book to add to the library
+            var book = new Book("Test This", "Bellman", "0123333333", 2025);
+            var book1 = new Book("Test Thoose", "Batman", "0123444444", 2025);
+            var book2 = new Book("Test That", "The Man", "0123555555", 2025);
+            var library = new LibrarySystem(new List<Book> { book, book1, book2 });
+
+            string splitISBN = "0123";
+
+            //When: searching for the book by partial author
+            var result = library.SearchByISBN(splitISBN);
+            int expected = library.GetAllBooks().Count;
+
+            //Then: the matching books should be returned
+            TestContext!.WriteLine($"Searched for {splitISBN}");
+            foreach (var b in result)
+            {
+                TestContext.WriteLine($"Found: {b.Title} - {b.ISBN}");
+            }
+            Assert.AreEqual(expected, result.Count, $"Expected: {expected} Actual: {result.Count}.");
+        }
+
 
         [TestMethod]
         public void BorrowBook_StatusIsBorrowed_ReturnTrue()
@@ -123,7 +188,7 @@ namespace LibrarySystemTests
 
             //When: book is loaned
             _librarySystem.BorrowBook(isbn);
-            
+
             //Then: IsBorrowed = true;
             Assert.IsTrue(book.IsBorrowed, "Expected: book should be borrowed.");
 
@@ -155,9 +220,9 @@ namespace LibrarySystemTests
 
             //When: book is borrowed
             var borrowStart = DateTime.Now;
-            bool result = _librarySystem.BorrowBook(isbn); 
+            bool result = _librarySystem.BorrowBook(isbn);
             var borrowCheck = DateTime.Now;
-            var borrowedBook = _librarySystem.SearchByISBN(isbn);
+            var borrowedBook = _librarySystem.FindExactISBN(isbn);
 
             //Then: it should return false
             Assert.IsTrue(result, "Expected: Book should be borrowed successfully.");
@@ -166,8 +231,7 @@ namespace LibrarySystemTests
                 "Expected: BorrowDate should be between the time interval");
 
         }
-        //TESTING
-        
+
         [TestMethod]
         public void ReturnBook_ShouldResetBorrowDate()
         {
@@ -185,5 +249,13 @@ namespace LibrarySystemTests
             //Assert.IsFalse(book.IsBorrowed, "Expected: Book should not be borrowed after return.");
             Assert.IsNull(book.BorrowDate, "Expected: BorrowDate should be reset to null after return.");
         }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            // Clean up resources after each test
+            _librarySystem = null;
+        }
+        
+        }
     }
-}

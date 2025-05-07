@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            LibrarySystem library = new LibrarySystem();
+            LibrarySystem library = new LibrarySystem(null);
             UserInterface.DisplayMenu(library);
         }
     }

@@ -99,9 +99,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj": {
-                "projectPath": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj"
-              },
               "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj": {
                 "projectPath": "C:\\Users\\Fredr\\Desktop\\S K O L A\\Avancerad.NET\\Advanced.NET-Labb4_UnitTesting\\Labb4_UnitTesting\\Advanced.NET-Labb4_UnitTesting.csproj"
               }

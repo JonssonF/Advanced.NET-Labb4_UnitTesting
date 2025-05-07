@@ -34,33 +34,40 @@ Added StringComparison.OrdinalIgnoreCase to make the search case-insensitive.
 
 #BUG 5
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[LibrarySystem/AddBook (Row 47)]
+Added if-statement to check if book is null.
 ---------------------------------------------------------------------------------
 
 #BUG 6
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[LibrarySystem/SearchByISBN (Row 89-94)]
+Changed the method to return a list of books instead of a single book.
 ---------------------------------------------------------------------------------
 
 #BUG 7
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[LibrarySystem/FindExactISBN (Row 95-100)]
+Added a method to match exact ISBN to avoid false positives.
 ---------------------------------------------------------------------------------
 
 #BUG 8
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[LibrarySystem/BorrowBook (Row 121-153)]
+Changed the method to return a list of books instead of a single book.
+Also added a check to see if the book is null / borrowed.
 ---------------------------------------------------------------------------------
 
 #BUG 9
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[UserInterface/SearchBookUI (Row 156)]
+Removed the if-statement to check if ISBN is null when searching for a book.
 ---------------------------------------------------------------------------------
 
 #BUG 10
 ---------------------------------------------------------------------------------
 [LibrarySystem/ReturnBook (Row 90)]
 Added a reset to borrowdate when returned.
+Implemented a new method to match exact ISBN to avoid false positives.
 ---------------------------------------------------------------------------------
 
 #BUG 11

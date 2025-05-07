@@ -88,15 +88,20 @@ namespace Advanced.NET_Labb4_UnitTesting
                 bool success = library.AddBook(book);
 
                 if (success)
+                {
                     Console.WriteLine("Book added successfully!");
+                } 
                 else
+                {
+
                     Console.WriteLine("Failed to add book. ISBN might already exist or is null.");
+                    return;
+                }
             }
             else
             {
                 Console.WriteLine("Invalid year format.");
             }
-
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
@@ -128,7 +133,7 @@ namespace Advanced.NET_Labb4_UnitTesting
             Console.WriteLine("2. Search by Author");
             Console.WriteLine("3. Search by ISBN");
             Console.Write("Enter your choice: ");
-
+            //BUG 9 - Removed the if-statement to check if ISBN is null when searching for a book.
             if (int.TryParse(Console.ReadLine(), out int choice))
             {
                 string searchTerm;
@@ -149,9 +154,7 @@ namespace Advanced.NET_Labb4_UnitTesting
                     case 3:
                         Console.Write("Enter ISBN: ");
                         searchTerm = Console.ReadLine();
-                        Book book = library.SearchByISBN(searchTerm);
-                        if (book != null)
-                            results.Add(book);
+                        results = library.SearchByISBN(searchTerm);
                         break;
                     default:
                         Console.WriteLine("Invalid option.");
