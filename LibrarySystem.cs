@@ -127,8 +127,5 @@ namespace Advanced.NET_Labb4_UnitTesting
             }
             return false;
         }
-
-
-        //ADDING TO COMMIT
     }
 }
