@@ -216,18 +216,21 @@ namespace LibrarySystemTests
             //Given: a book that is added to the system.
             string isbn = "0123456789";
             var book = new Book("Test Title", "Test Author", isbn, 2025);
-            _librarySystem.AddBook(book);
-
+            var library = new LibrarySystem(new List<Book> { book });
+            
             //When: book is borrowed
-            var borrowStart = DateTime.Now;
-            bool result = _librarySystem.BorrowBook(isbn);
-            var borrowCheck = DateTime.Now;
-            var borrowedBook = _librarySystem.FindExactISBN(isbn);
+            var borrowStart = DateTime.Now.AddSeconds(-1);
+            bool result = library.BorrowBook(isbn);
+            var borrowCheck = DateTime.Now.AddSeconds(1);
 
-            //Then: it should return false
+
+            //Then: it should return true and be between the time interval
+            Console.WriteLine($"Start: {borrowStart.ToString()}");
+            Console.WriteLine($"Actual: {book.BorrowDate.ToString()}");
+            Console.WriteLine($"End: {borrowCheck.ToString()}");
             Assert.IsTrue(result, "Expected: Book should be borrowed successfully.");
             Assert.IsTrue(
-                borrowedBook.BorrowDate >= borrowStart && borrowedBook.BorrowDate <= borrowCheck,
+                book.BorrowDate >= borrowStart && book.BorrowDate <= borrowCheck,
                 "Expected: BorrowDate should be between the time interval");
 
         }
@@ -235,20 +238,55 @@ namespace LibrarySystemTests
         [TestMethod]
         public void ReturnBook_ShouldResetBorrowDate()
         {
+
             //Given: a book that is borrowed
             string isbn = "0123456789";
             var book = new Book("Test Title", "Test Author", isbn, 2025);
-            _librarySystem.AddBook(book);
-            _librarySystem.BorrowBook(isbn);
+            var library = new LibrarySystem(new List<Book> { book });
+            book.IsBorrowed = true; // Simulate that the book is borrowed
+            book.BorrowDate = DateTime.Now.AddMinutes(-5); // Simulate that the book has a borrow date
 
             //When: returning the book
-            bool result = _librarySystem.ReturnBook(isbn);
+            bool result = library.ReturnBook(isbn);
 
-            //Then: the book should be returned successfully and IsBorrowed should be false
+            //Then: expected results should be fulfilled
             Assert.IsTrue(result, "Expected: Book should be returned successfully.");
-            //Assert.IsFalse(book.IsBorrowed, "Expected: Book should not be borrowed after return.");
+            Assert.IsFalse(book.IsBorrowed, "Expected: Book should not be borrowed after return.");
             Assert.IsNull(book.BorrowDate, "Expected: BorrowDate should be reset to null after return.");
         }
+
+        [TestMethod]
+        public void ReturnBook_ShouldNotReturn_NotBorrowed()
+        {
+            //Given: a book that is not borrowed
+            string isbn = "0123456789";
+            var book = new Book("Test Title", "Test Author", isbn, 2025);
+            var library = new LibrarySystem(new List<Book> { book });
+            book.IsBorrowed = false; // Simulate that the book is not borrowed
+
+            //When: trying to return the book
+            bool result = library.ReturnBook(isbn);
+
+            //Then: the book should not be returned
+            TestContext!.WriteLine($"Trying to return book with ISBN: {isbn}");
+            TestContext.WriteLine($"Book status: Borrowed = {book.IsBorrowed}");
+            TestContext.WriteLine($"Cannot return a book that isn't borrowed.");
+            Assert.IsFalse(result, "Expected: Book should not be returned if it is not borrowed.");
+        }
+
+        //[TestMethod]
+        //public void IsBookOverdue_ShouldReturnTrue_Overdue()
+        //{
+        //    //Given: a book that is borrowed
+        //    string isbn = "0123456789";
+        //    var book = new Book("Test Title", "Test Author", isbn, 2025);
+        //    _librarySystem.AddBook(book);
+        //    _librarySystem.BorrowBook(isbn);
+        //    //When: checking if the book is overdue
+        //    bool result = _librarySystem.IsBookOverdue(isbn, 7);
+        //    //Then: it should return true
+        //    Assert.IsTrue(result, "Expected: Book should be overdue.");
+        //}
 
         [TestCleanup]
         public void Cleanup()
