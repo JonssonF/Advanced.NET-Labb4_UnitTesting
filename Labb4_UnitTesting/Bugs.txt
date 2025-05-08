@@ -72,7 +72,8 @@ Implemented a new method to match exact ISBN to avoid false positives.
 
 #BUG 11
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[UserInterface/SearchBookUI (Row 128)]
+Changed method to receive a List of books in case the result is multiple
 ---------------------------------------------------------------------------------
 
 #BUG 12

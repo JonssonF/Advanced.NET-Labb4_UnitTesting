@@ -90,7 +90,7 @@ namespace Advanced.NET_Labb4_UnitTesting
                 if (success)
                 {
                     Console.WriteLine("Book added successfully!");
-                } 
+                }
                 else
                 {
 
@@ -133,10 +133,10 @@ namespace Advanced.NET_Labb4_UnitTesting
             Console.WriteLine("2. Search by Author");
             Console.WriteLine("3. Search by ISBN");
             Console.Write("Enter your choice: ");
+            string searchTerm = "";
             //BUG 9 - Removed the if-statement to check if ISBN is null when searching for a book.
             if (int.TryParse(Console.ReadLine(), out int choice))
             {
-                string searchTerm;
                 List<Book> results = new List<Book>();
 
                 switch (choice)
@@ -161,17 +161,24 @@ namespace Advanced.NET_Labb4_UnitTesting
                         break;
                 }
 
-                if (results.Count > 0)
+                if (results.Count > 1)
                 {
-                    Console.WriteLine("\nSearch Results:");
+                    Console.WriteLine($"\nProvided search term /{searchTerm}/ gave several matches:\n");
                     foreach (var book in results)
                     {
                         Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}, Year: {book.PublicationYear}, Available: {!book.IsBorrowed}");
                     }
+                    Console.WriteLine("\nTry to be more specific.");
+                }
+                else if (results.Count == 1)
+                {
+                    var book = results[0];
+                    Console.WriteLine($"\nWe found one match for {searchTerm}:\n");
+                    Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}, Year: {book.PublicationYear}, Available: {!book.IsBorrowed}\n");
                 }
                 else
                 {
-                    Console.WriteLine("No books found matching your search criteria.");
+                    Console.WriteLine($"No books found matching your search /{searchTerm}/.");
                 }
             }
             else

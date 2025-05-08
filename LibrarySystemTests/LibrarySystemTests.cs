@@ -288,19 +288,20 @@ namespace LibrarySystemTests
             Assert.IsFalse(result, "Expected: Book should not be returned if it is not borrowed.");
         }
 
-        //[TestMethod]
-        //public void IsBookOverdue_ShouldReturnTrue_Overdue()
-        //{
-        //    //Given: a book that is borrowed
-        //    string isbn = "0123456789";
-        //    var book = new Book("Test Title", "Test Author", isbn, 2025);
-        //    _librarySystem.AddBook(book);
-        //    _librarySystem.BorrowBook(isbn);
-        //    //When: checking if the book is overdue
-        //    bool result = _librarySystem.IsBookOverdue(isbn, 7);
-        //    //Then: it should return true
-        //    Assert.IsTrue(result, "Expected: Book should be overdue.");
-        //}
+        [TestMethod]
+        [TestCategory("Overdue")]
+        public void IsBookOverdue_ShouldReturnTrue_Overdue()
+        {
+            //Given: a book that is borrowed
+            string isbn = "0123456789";
+            var book = new Book("Test Title", "Test Author", isbn, 2025);
+            _librarySystem.AddBook(book);
+            _librarySystem.BorrowBook(isbn);
+            //When: checking if the book is overdue
+            bool result = _librarySystem.IsBookOverdue(isbn, 7);
+            //Then: it should return true
+            Assert.IsTrue(result, "Expected: Book should be overdue.");
+        }
 
         [TestCleanup]
         public void Cleanup()
