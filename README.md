@@ -58,7 +58,6 @@ Tests are categorized using `[TestCategory]` and include debug-friendly `TestCon
 
 ## ❗ Known Details and Improvements
 
-- The `.vs/` and `bin/obj` folders are excluded using `.gitignore`
 - Special care has been taken to prevent false positives when using partial ISBNs
 - User prompts and messages (UI friendliness) have been refactored to `UserInterface.cs` where possible
 - Tests are green and project is now cleanly organized
