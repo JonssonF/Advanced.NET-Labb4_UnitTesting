@@ -15,6 +15,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Adding")]
         public void AddBook_ShouldAdd_ValidBook()
         {
             var library = new LibrarySystem(new List<Book>());
@@ -31,6 +32,7 @@ namespace LibrarySystemTests
 
 
         [TestMethod]
+        [TestCategory("Adding")]
         public void AddBook_ShouldNotAdd_DuplicateISBN()
         {
             var library = new LibrarySystem(new List<Book>());
@@ -49,6 +51,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Removing")]
         public void RemoveBook_ShouldRemoveBook()
         {
             //Given: a book to remove
@@ -63,6 +66,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Removing")]
         public void RemoveBook_ShouldNotRemoveBook_IsBorrowed()
         {
             //Given: a book that is borrowed
@@ -78,7 +82,8 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
-        public void FindExactISBN_ShouldReturnBook()
+        [TestCategory("Searching")]
+        public void SearchExactISBN_ShouldReturnBook()
         {
             //Given: a book in the library
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
@@ -93,7 +98,8 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
-        public void FindExactISBN_ShouldReturnNull_NotFound()
+        [TestCategory("Searching")]
+        public void SearchExactISBN_ShouldReturnNull_NotFound()
         {
             //CTFT
             /*
@@ -113,6 +119,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Searching")]
         public void SearchByTitle_PartialTitleAndLowerCases_ReturnTrue()
         {
             //Given: a book in the library
@@ -127,6 +134,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Searching")]
         public void SearchByAuthor_PartialAuthorAndLowerCases_ReturnExpectedResult()
         {
             //Given: some books to add to the library
@@ -154,6 +162,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Searching")]
         public void SearchByISBN_PartialISBN_ReturnMachingResults()
         {
             //Given: a book to add to the library
@@ -179,15 +188,16 @@ namespace LibrarySystemTests
 
 
         [TestMethod]
+        [TestCategory("Borrowing")]
         public void BorrowBook_StatusIsBorrowed_ReturnTrue()
         {
             //Given: a book to loan
             string isbn = "0123456789";
             var book = new Book("Test Title", "Test Author", isbn, 2025);
-            _librarySystem.AddBook(book);
+            var library = new LibrarySystem(new List<Book> { book });
 
             //When: book is loaned
-            _librarySystem.BorrowBook(isbn);
+            library.BorrowBook(isbn);
 
             //Then: IsBorrowed = true;
             Assert.IsTrue(book.IsBorrowed, "Expected: book should be borrowed.");
@@ -195,22 +205,24 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Borrowing")]
         public void BorrowBook_BorrowLoanedBook_ReturnFalse()
         {
             //Given: a book that is already borrowed
             string isbn = "0123456789";
             var book = new Book("Test Title", "Test Author", isbn, 2025);
-            _librarySystem.AddBook(book);
-            _librarySystem.BorrowBook(isbn);
+            var library = new LibrarySystem(new List<Book> { book });
+            book.IsBorrowed = true;
 
             //When: trying to loan borrowed book
-            bool actual = _librarySystem.BorrowBook(isbn);
+            bool actual = library.BorrowBook(isbn);
 
             //Then: it should return false
             Assert.IsFalse(actual, "Expected: false when book is already borrowed.");
         }
 
         [TestMethod]
+        [TestCategory("Borrowing")]
         public void BorrowBook_CheckBorrowDate_ReturnTrue()
         {
             //Given: a book that is added to the system.
@@ -236,6 +248,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Returning")]
         public void ReturnBook_ShouldResetBorrowDate()
         {
 
@@ -256,6 +269,7 @@ namespace LibrarySystemTests
         }
 
         [TestMethod]
+        [TestCategory("Returning")]
         public void ReturnBook_ShouldNotReturn_NotBorrowed()
         {
             //Given: a book that is not borrowed
