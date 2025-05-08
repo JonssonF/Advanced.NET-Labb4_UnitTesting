@@ -79,11 +79,10 @@ namespace Advanced.NET_Labb4_UnitTesting
             var book = matches.First();
             if (book.IsBorrowed)
             {
-                Console.WriteLine("The book is already borrowed and cannot be removed.");
+                Console.WriteLine("\nThe book is already borrowed and cannot be removed.");
                 return false;
             }
             books.Remove(book);
-            Console.WriteLine("The book was removed");
             return true;
         }
         /*------------------------------------------------------------------------------------*/
@@ -134,12 +133,11 @@ namespace Advanced.NET_Labb4_UnitTesting
             if (matches.Count > 1)
             {
                 Console.WriteLine($"Provided ISBN:{isbn} had several matches.");
+                Console.WriteLine($"Please be more specific if u want to borrow.\n");
                 foreach (var match in matches)
                 {
                     Console.WriteLine($"- {match.Title} - ({match.ISBN})");
                 }
-                Console.WriteLine($"Please be more specific.");
-
                 return false;
             }
 
@@ -152,7 +150,7 @@ namespace Advanced.NET_Labb4_UnitTesting
 
             book.IsBorrowed = true;
             book.BorrowDate = DateTime.Now;
-            Console.WriteLine($"You have succesfully borrowed book with provided ISBN: {book.ISBN}");
+            Console.WriteLine($"\nYou have succesfully borrowed book with provided ISBN: {book.ISBN}");
             Console.WriteLine($"-{book.Title} / {book.Author} / {book.BorrowDate}");
             return true;
         }
@@ -166,6 +164,7 @@ namespace Advanced.NET_Labb4_UnitTesting
             {
                 book.IsBorrowed = false;
                 book.BorrowDate = null;
+                Console.WriteLine($"We hope you enjoyed reading {book.Title}.");
                 return true;
             }
             return false;

@@ -119,7 +119,7 @@ namespace Advanced.NET_Labb4_UnitTesting
             if (success)
                 Console.WriteLine("Book removed successfully!");
             else
-                Console.WriteLine("Failed to remove book. ISBN might not exist or book is currently borrowed.");
+                Console.WriteLine("Failed to remove book.");
 
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
@@ -168,7 +168,6 @@ namespace Advanced.NET_Labb4_UnitTesting
                     {
                         Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}, Year: {book.PublicationYear}, Available: {!book.IsBorrowed}");
                     }
-                    Console.WriteLine("\nTry to be more specific.");
                 }
                 else if (results.Count == 1)
                 {
@@ -201,12 +200,11 @@ namespace Advanced.NET_Labb4_UnitTesting
             bool success = library.BorrowBook(isbn);
 
             if (success)
-                Console.WriteLine("Book borrowed successfully!");
+                Console.WriteLine("\nBook borrowed successfully!");
             else
-                Console.WriteLine("Failed to borrow book. ISBN might not exist or book is already borrowed.");
-
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+                Console.WriteLine("\nFailed to borrow book.");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
         }
 
         public static void ReturnBookUI(LibrarySystem library)

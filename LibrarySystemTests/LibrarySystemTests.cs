@@ -75,7 +75,7 @@ namespace LibrarySystemTests
             var library = new LibrarySystem(new List<Book> { book });
 
             //When: trying to remove the borrowed book
-            bool actual = _librarySystem.RemoveBook(book.ISBN);
+            bool actual = library.RemoveBook(book.ISBN);
 
             //Then: the book should not be removed
             Assert.IsFalse(actual, "Expected: Removing a borrowed book should fail.");
@@ -149,7 +149,7 @@ namespace LibrarySystemTests
             var result = library.SearchByAuthor(splitAuthor);
 
             //Then: the matching books should be returned
-            int expected = library.GetAllBooks().Count;
+            int expected = 3;
 
             TestContext!.WriteLine($"Searched for {splitAuthor}");
             foreach(var b in result)
@@ -292,16 +292,46 @@ namespace LibrarySystemTests
         [TestCategory("Overdue")]
         public void IsBookOverdue_ShouldReturnTrue_Overdue()
         {
-            //Given: a book that is borrowed
+            //Given: a book to see if it is overdue
             string isbn = "0123456789";
-            var book = new Book("Test Title", "Test Author", isbn, 2025);
-            _librarySystem.AddBook(book);
-            _librarySystem.BorrowBook(isbn);
+            var book = new Book("Test Title", "Test Author", isbn, 2025)
+            {
+                IsBorrowed = true,
+                BorrowDate = DateTime.Now.AddDays(-10)
+            };
+            var library = new LibrarySystem(new List<Book> { book });
+
+            int loanPeriod = 7;
+
             //When: checking if the book is overdue
-            bool result = _librarySystem.IsBookOverdue(isbn, 7);
+            bool result = library.IsBookOverdue(isbn, loanPeriod);
+
             //Then: it should return true
             Assert.IsTrue(result, "Expected: Book should be overdue.");
         }
+
+        [TestMethod]
+        [TestCategory("Overdue")]
+        public void CalculateLateFee_ShouldReturnCorrectFee_Overdue()
+        {
+            //Given: a book to see if it is overdue
+            string isbn = "0123456789";
+            var book = new Book("Test Title", "Test Author", isbn, 2025);
+            var library = new LibrarySystem(new List<Book> { book });
+
+            int daysLate = 7;
+            decimal fee = 0.5m;
+            decimal expectedFee =  daysLate * fee;
+
+            //When: calculating the late fee
+            decimal actualFee = library.CalculateLateFee(isbn, daysLate);
+
+            //Then: it should return the correct fee
+            Assert.AreEqual(expectedFee, actualFee, "Expected: Late fee should be calculated correctly.");
+        }
+
+
+
 
         [TestCleanup]
         public void Cleanup()

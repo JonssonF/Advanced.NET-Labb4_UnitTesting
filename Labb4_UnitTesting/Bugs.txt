@@ -78,7 +78,8 @@ Changed method to receive a List of books in case the result is multiple
 
 #BUG 12
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[LibrarySystem/CalculateLateFee (Row 178)]
+
 ---------------------------------------------------------------------------------
 
 #BUG 13
