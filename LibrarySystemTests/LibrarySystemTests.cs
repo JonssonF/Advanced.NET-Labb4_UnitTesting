@@ -23,26 +23,58 @@ namespace LibrarySystemTests
             //Given: a book with unique ISBN
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
 
-            //When: try to add the book to the library
+            //When: trying to add the book to the library
             bool result = library.AddBook(book);
 
-            //Then: the book should be added successfully and retrievable by ISBN
+            //Then: the book should be added successfully
             Assert.IsTrue(result, "Book couldn't be added successfully.");
+        }
+
+        [TestMethod]
+        [TestCategory("Adding")]
+        public void AddBook_NoISBN_UnvalidBook()
+        {
+            var library = new LibrarySystem(new List<Book>());
+
+            //Given: a book with empty ISBN
+            var book = new Book("Test Title", "Test Author", "", 2025);
+
+            //When: trying to add the book to the library with empty ISBN
+            bool result = library.AddBook(book);
+
+            //Then: the book should not be able to be added to the system
+            Assert.IsFalse(result, "Book should not be added successfully.");
+        }
+
+        [TestMethod]
+        [TestCategory("Adding")]
+        public void AddBook_Whitespace_UnvalidBook()
+        {
+            var library = new LibrarySystem(new List<Book>());
+
+            //Given: a book with empty ISBN
+            var book = new Book("Test Title", "Test Author", " ", 2025);
+
+            //When: trying to add the book to the library with whitespace
+            bool result = library.AddBook(book);
+
+            //Then: the book should not be able to be added to the system
+            Assert.IsFalse(result, "Book should not be added successfully.");
         }
 
 
         [TestMethod]
         [TestCategory("Adding")]
-        public void AddBook_ShouldNotAdd_DuplicateISBN()
+        public void AddBook_DuplicateISBN_ShouldNotAdd()
         {
             var library = new LibrarySystem(new List<Book>());
 
             //Given: two books with the same ISBN.
             string isbn = "0123456789";
+            library.AddBook(new Book("Test Title", "Test Author", isbn, 2025));
             var duplicateBook = new Book("Test Title", "Test Author", isbn, 2025);
 
             //When: adding the first book(successfully) and the second book(unsuccessfully)
-            library.AddBook(new Book("Test Title", "Test Author", isbn, 2025));
             bool actual = library.AddBook(duplicateBook);
 
             //Then: the second book should not be added.
@@ -52,7 +84,7 @@ namespace LibrarySystemTests
 
         [TestMethod]
         [TestCategory("Removing")]
-        public void RemoveBook_ShouldRemoveBook()
+        public void RemoveBook_RemovingBook_ReturnTrue()
         {
             //Given: a book to remove
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
@@ -87,7 +119,9 @@ namespace LibrarySystemTests
         {
             //Given: a book in the library
             var book = new Book("Test Title", "Test Author", "0123456789", 2025);
-            var library = new LibrarySystem(new List<Book> { book });
+            var library = new LibrarySystem(new List<Book>());
+
+            bool addedBook = library.AddBook(book);
 
             //When: searching for the book by ISBN
             var actual = library.FindExactISBN(book.ISBN);
@@ -124,13 +158,16 @@ namespace LibrarySystemTests
         {
             //Given: a book in the library
             var book = new Book("Test This", "Test Author", "0123456789", 2025);
-            var library = new LibrarySystem(new List<Book> { book });
+            var book1 = new Book("TEST THIS", "Test Author", "0123456789", 2025);
+            var library = new LibrarySystem(new List<Book> { book, book1 });
 
             //When: searching for the book by partial title
             var result = library.SearchByTitle("thi");
 
+            var expected = 2;
+
             //Then: the correct book should be returned
-            Assert.AreEqual(1, result.Count, "Expected: One book should be found.");
+            Assert.AreEqual(expected, result.Count, "Expected: One book should be found.");
         }
 
         [TestMethod]
@@ -138,14 +175,14 @@ namespace LibrarySystemTests
         public void SearchByAuthor_PartialAuthorAndLowerCases_ReturnExpectedResult()
         {
             //Given: some books to add to the library
-            var book = new Book("Test This", "Bellman", "0123456779", 2025);
+            var book = new Book("Test This", "Bell MAN", "0123456779", 2025);
             var book1 = new Book("Test Thoose", "Batman", "0123456789", 2025);
             var book2 = new Book("Test That", "The Man", "0123456799", 2025);
             var library = new LibrarySystem(new List<Book> { book, book1, book2 });
 
+            //When: searching for the book by partial author
             string splitAuthor = "man";
 
-            //When: searching for the book by partial author
             var result = library.SearchByAuthor(splitAuthor);
 
             //Then: the matching books should be returned

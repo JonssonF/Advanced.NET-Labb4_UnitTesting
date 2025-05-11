@@ -98,6 +98,8 @@ namespace Advanced.NET_Labb4_UnitTesting
         public Book? FindExactISBN(string isbn)
         {
             return books
+                .Where(b => b.ISBN != null)
+                .Where (b => b.ISBN != " ")
                 .FirstOrDefault(b => b.ISBN.Equals(isbn, StringComparison.OrdinalIgnoreCase));
         }
         /*------------------------------------------------------------------------------------*/

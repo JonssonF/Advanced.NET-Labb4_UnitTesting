@@ -168,6 +168,37 @@ namespace Advanced.NET_Labb4_UnitTesting
                     {
                         Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}, Year: {book.PublicationYear}, Available: {!book.IsBorrowed}");
                     }
+
+                    Console.WriteLine("Would you like to narrow your search?");
+                    Console.WriteLine("1. Yes");
+                    Console.WriteLine("2. No");
+                    Console.Write("Enter your choice: ");
+                    if (int.TryParse(Console.ReadLine(), out int narrowChoice))
+                    {
+                        if (narrowChoice == 1)
+                        {
+                            Console.Write("Please enter specific ISBN: ");
+                            string newSearchTerm = Console.ReadLine();
+                            var book = library.FindExactISBN(newSearchTerm);
+
+                            if (results.Count > 0)
+                            {
+                                Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}, Year: {book.PublicationYear}, Available: {!book.IsBorrowed}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"No matches found for {newSearchTerm}.");
+                            }
+                        }
+                        else if (narrowChoice == 2)
+                        {
+                            Console.WriteLine("Search cancelled.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid choice.");
+                        }
+                    }
                 }
                 else if (results.Count == 1)
                 {
