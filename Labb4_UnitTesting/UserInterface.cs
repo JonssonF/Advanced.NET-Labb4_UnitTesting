@@ -169,7 +169,7 @@ namespace Advanced.NET_Labb4_UnitTesting
                         Console.WriteLine($"Title: {book.Title}, Author: {book.Author}, ISBN: {book.ISBN}, Year: {book.PublicationYear}, Available: {!book.IsBorrowed}");
                     }
 
-                    Console.WriteLine("Would you like to narrow your search?");
+                    Console.WriteLine("\nWould you like to narrow your search?");
                     Console.WriteLine("1. Yes");
                     Console.WriteLine("2. No");
                     Console.Write("Enter your choice: ");

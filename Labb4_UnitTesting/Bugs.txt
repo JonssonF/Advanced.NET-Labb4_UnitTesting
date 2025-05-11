@@ -3,6 +3,11 @@
 Here are some of the bugs that i have found that i fixed to make the 
 application more stable with less problems.
 
+Added a option to narrow down the search if u get multiple results for better UX,
+it is not fully implemented yet but it is a start. The idea was to add all the
+different options when you have your single match, and then u can borrow, remove
+or return the book.
+
 
 #BUG 1
 ---------------------------------------------------------------------------------
@@ -23,7 +28,8 @@ Fixed If-statement to see if ISBN is null or whitespace.
 #BUG 3
 ---------------------------------------------------------------------------------
 [LibrarySystem/RemoveBook (Row 48)]
-Added if statement to check if the book is borrowed -> return false.
+Altered if-statement to include IsBorrowed and to see if the book is null.
+And checking if the match get several hits.
 ---------------------------------------------------------------------------------
 
 #BUG 4
@@ -78,11 +84,13 @@ Changed method to receive a List of books in case the result is multiple
 
 #BUG 12
 ---------------------------------------------------------------------------------
-[LibrarySystem/CalculateLateFee (Row 178)]
-
+[LibrarySystem/CalculateLateFee (Row 187)]
+Changed the method to return a multiplied result of the days late and the fee.
 ---------------------------------------------------------------------------------
 
 #BUG 13
 ---------------------------------------------------------------------------------
-[LibrarySystem/]
+[LibrarySystem/Constructor (Row 9)]
+Changed constructor to accept a list of books for easier testing.  
+Fallback to a default list of predefined books if null is provided.
 ---------------------------------------------------------------------------------

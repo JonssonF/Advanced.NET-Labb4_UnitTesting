@@ -313,7 +313,7 @@ namespace LibrarySystemTests
             string isbn = "0123456789";
             var book = new Book("Test Title", "Test Author", isbn, 2025);
             var library = new LibrarySystem(new List<Book> { book });
-            book.IsBorrowed = false; // Simulate that the book is not borrowed
+            book.IsBorrowed = false;
 
             //When: trying to return the book
             bool result = library.ReturnBook(isbn);

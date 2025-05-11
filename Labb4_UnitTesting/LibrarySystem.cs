@@ -30,13 +30,12 @@ namespace Advanced.NET_Labb4_UnitTesting
             };
         }
 
-        public int BookCount => books.Count;
 
         /*------------------------------------------------------------------------------------*/
         public bool AddBook(Book book)
         {
-            //BUG 1 - Added if-statement so books can't be duplicate.
-            if (books.Any(b => b.ISBN == book.ISBN)) 
+            //BUG 5 - Added if-statement to check if book is null.
+            if (book == null)
             {
                 return false;
             }
@@ -45,8 +44,8 @@ namespace Advanced.NET_Labb4_UnitTesting
             {
                 return false;
             }
-            //BUG 5 - Added if-statement to check if book is null.
-            if (book == null)
+            //BUG 1 - Added if-statement so books can't be duplicate.
+            if (books.Any(b => b.ISBN == book.ISBN)) 
             {
                 return false;
             }
